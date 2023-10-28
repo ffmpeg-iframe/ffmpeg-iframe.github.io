@@ -20,7 +20,7 @@
           }, "/input");
           await ffmpeg.exec(["-i", "/input/myvid." + data.vid_ext, "-i", "/input/myaud." + data.aud_ext, "-c", "copy", "output." + (data.vid_ext == data.aud_ext ? data.vid_ext : "mkv")]);
           const blobby = new Blob([await ffmpeg.readFile("output." + (data.vid_ext == data.aud_ext ? data.vid_ext : "mkv"))]);
-          parent.postMessage(blobby)
+          parent.postMessage(blobby);
           ffmpeg.unmount("/input");
           ffmpeg.deleteDir("/input");
         });
