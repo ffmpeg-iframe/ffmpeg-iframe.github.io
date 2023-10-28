@@ -13,6 +13,7 @@
             workerURL: URL.createObjectURL(await ( await fetch((`${baseURL}/ffmpeg-core.worker.js`))).blob()),
         });
         window.addEventListener("message", async event => {
+          console.log("Message received!");
           const data = event.data;
           await ffmpeg.createDir("/input");
           await ffmpeg.mount('WORKERFS', {
@@ -20,11 +21,15 @@
           }, "/input");
           await ffmpeg.exec(["-i", "/input/myvid." + data.vid_ext, "-i", "/input/myaud." + data.aud_ext, "-c", "copy", "output." + (data.vid_ext == data.aud_ext ? data.vid_ext : "mkv")]);
           const blobby = new Blob([await ffmpeg.readFile("output." + (data.vid_ext == data.aud_ext ? data.vid_ext : "mkv"))]);
-          parent.postMessage(blobby);
+          window.opener.postMessage(blobby);
+          console.log("Message sent!");
           ffmpeg.unmount("/input");
           ffmpeg.deleteDir("/input");
         });
       };
     </script>
   </head>
+  <body>
+    <h1>This window is used by the downloader for accessing restricted parts of the browser required for combining video and audio streams.  Please leave this open while using the YT downloader.</h1>
+  </body>
 </html>
