@@ -12,6 +12,18 @@
             wasmURL: URL.createObjectURL(await ( await fetch((`${baseURL}/ffmpeg-core.wasm`))).blob()),
             workerURL: URL.createObjectURL(await ( await fetch((`${baseURL}/ffmpeg-core.worker.js`))).blob()),
         });
+        window.addEventListener("message", async event => {
+          const data = event.data;
+          await ffmpeg.createDir("/input");
+          await ffmpeg.mount('WORKERFS', {
+            files: [data.vid_data, data.aud_data]
+          }, "/input");
+          await ffmpeg.exec(["-i", "/input/myvid." + data.vid_ext, "-i", "/input/myaud." + data.aud_ext, "-c", "copy", "output." + (data.vid_ext == data.aud_ext ? data.vid_ext : "mkv")]);
+          const blobby = new Blob([await ffmpeg.readFile("output." + (data.vid_ext == data.aud_ext ? data.vid_ext : "mkv"))]);
+          parent.postMessage(blobby)
+          ffmpeg.unmount("/input");
+          ffmpeg.deleteDir("/input");
+        });
       };
     </script>
   </head>
