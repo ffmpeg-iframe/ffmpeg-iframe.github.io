@@ -17,6 +17,7 @@
           console.log("Message received!");
           const data = event.data;
           console.log(data);
+          window.playgroundData = data;
           await ffmpeg.createDir("/input");
           await ffmpeg.mount('WORKERFS', {
             files: [data.vid_data, data.aud_data]
