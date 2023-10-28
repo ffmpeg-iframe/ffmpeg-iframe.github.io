@@ -1,3 +1,15 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <script>
+      onload = async => {
+        const baseURL = "https://cdn.jsdelivr.net/npm/@ffmpeg/core-mt@0.12.4/dist/umd";
+        await ffmpeg.load({
+            coreURL: URL.createObjectURL(await ( await fetch((`${baseURL}/ffmpeg-core.js`))).blob()),
+            wasmURL: URL.createObjectURL(await ( await fetch((`${baseURL}/ffmpeg-core.wasm`))).blob()),
+            workerURL: URL.createObjectURL(await ( await fetch((`${baseURL}/ffmpeg-core.worker.js`))).blob()),
+        });
+      };
+    </script>
+  </head>
 </html>
