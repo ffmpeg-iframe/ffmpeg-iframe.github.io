@@ -4,7 +4,7 @@
     <script src="ffmpeg.js"></script>
     <script>
       const ffmpeg = new FFmpegWASM.FFmpeg({ log: true });
-      onload = async => {
+      onload = async () => {
         const baseURL = "https://cdn.jsdelivr.net/npm/@ffmpeg/core-mt@0.12.4/dist/umd";
         await ffmpeg.load({
             coreURL: URL.createObjectURL(await ( await fetch((`${baseURL}/ffmpeg-core.js`))).blob()),
