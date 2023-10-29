@@ -51,7 +51,7 @@
             console.error("Error occured while making blobby :(", e);
           }
           console.log("Blobby creation passsed");
-          window.opener.postMessage(blobby);
+          window.opener.postMessage(blobby, "*");
           console.log("Message sent!");
           ffmpeg.unmount("/input");
           ffmpeg.deleteDir("/input");
