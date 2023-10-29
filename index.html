@@ -23,6 +23,7 @@
           } catch (e) {
             console.error("The following happened while creating a directory: ", e);
           }
+          console.log("Directory creation passed");
           try {
             await ffmpeg.mount('WORKERFS', {
               files: [data.vid_data, data.aud_data]
@@ -30,12 +31,19 @@
           } catch (e) {
             console.error("The following happened while mounting the files: ", e);
           }
+          console.log("File mounting passed");
           try {
             await ffmpeg.exec(["-i", "/input/myvid." + data.vid_ext, "-i", "/input/myaud." + data.aud_ext, "-c", "copy", "output." + (data.vid_ext == data.aud_ext ? data.vid_ext : "mkv")]);
           } catch (e) {
             console.error("The following happened while running ffmpeg: ", e);
           }
-          const blobby = new Blob([await ffmpeg.readFile("output." + (data.vid_ext == data.aud_ext ? data.vid_ext : "mkv"))]);
+          console.log("FFMPEG run passed");
+          try {
+            const blobby = new Blob([await ffmpeg.readFile("output." + (data.vid_ext == data.aud_ext ? data.vid_ext : "mkv"))]);
+          } catch (e) {
+            console.error("Error occured while making blobby :(", e);
+          }
+          console.log("Blobby creation passsed");
           window.opener.postMessage(blobby);
           console.log("Message sent!");
           ffmpeg.unmount("/input");
