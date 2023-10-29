@@ -6,6 +6,10 @@
     <script src="ffmpeg.js"></script>
     <script>
       const ffmpeg = new FFmpegWASM.FFmpeg();
+      function pass(ingoing) {
+        console.log(ingoing);
+        return ingoing;
+      }
       onload = async () => {
         const baseURL = "https://cdn.jsdelivr.net/npm/@ffmpeg/core-mt@0.12.4/dist/umd";
         await ffmpeg.load({
@@ -39,8 +43,9 @@
             console.error("The following happened while running ffmpeg: ", e);
           }
           console.log("FFMPEG run passed");
+          console.log(await ffmpeg.listDir("./"));
           try {
-            const blobby = new Blob([await ffmpeg.readFile("output." + (data.vid_ext == data.aud_ext ? data.vid_ext : "mkv"))]);
+            const blobby = new Blob([await ffmpeg.readFile(pass("output." + (data.vid_ext == data.aud_ext ? data.vid_ext : "mkv")))]);
           } catch (e) {
             console.error("Error occured while making blobby :(", e);
           }
