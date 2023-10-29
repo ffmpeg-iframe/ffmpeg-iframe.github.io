@@ -13,7 +13,7 @@
             wasmURL: URL.createObjectURL(await ( await fetch((`${baseURL}/ffmpeg-core.wasm`))).blob()),
             workerURL: URL.createObjectURL(await ( await fetch((`${baseURL}/ffmpeg-core.worker.js`))).blob()),
         });
-        ffmpeg.on("log", console.log);
+        ffmpeg.on("log", log => {console.log(log.message)});
         window.addEventListener("message", async event => {
           console.log("Message received!");
           const data = event.data;
