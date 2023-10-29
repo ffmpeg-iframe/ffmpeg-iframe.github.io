@@ -45,7 +45,7 @@
           console.log("FFMPEG run passed");
           console.log(await ffmpeg.listDir("./"));
           try {
-            const blobby = new Blob([await ffmpeg.readFile(pass("output." + (data.vid_ext == data.aud_ext ? data.vid_ext : "mkv")))]);
+            const blobby = new Blob([await ffmpeg.readFile(pass("/output." + (data.vid_ext == data.aud_ext ? data.vid_ext : "mkv")))]);
           } catch (e) {
             console.error("Error occured while making blobby :(", e);
           }
