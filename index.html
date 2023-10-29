@@ -5,13 +5,16 @@
     <meta http-equiv="origin-trial" content="ArqhkZuOovhQGpJ5LMTfRRj+af4pveLk92isaj4kEyXwp7yHmUXVMCTZWZPVOMJXVyMf7SipKgQzn2zRJBvGOQgAAABueyJvcmlnaW4iOiJodHRwczovL2ZmbXBlZy1pZnJhbWUuZ2l0aHViLmlvOjQ0MyIsImZlYXR1cmUiOiJVbnJlc3RyaWN0ZWRTaGFyZWRBcnJheUJ1ZmZlciIsImV4cGlyeSI6MTcwOTg1NTk5OX0=">
     <script src="ffmpeg.js"></script>
     <script>
-      const ffmpeg = new FFmpegWASM.FFmpeg({ log: true });
+      const ffmpeg = new FFmpegWASM.FFmpeg();
       onload = async () => {
         const baseURL = "https://cdn.jsdelivr.net/npm/@ffmpeg/core-mt@0.12.4/dist/umd";
         await ffmpeg.load({
             coreURL: URL.createObjectURL(await ( await fetch((`${baseURL}/ffmpeg-core.js`))).blob()),
             wasmURL: URL.createObjectURL(await ( await fetch((`${baseURL}/ffmpeg-core.wasm`))).blob()),
             workerURL: URL.createObjectURL(await ( await fetch((`${baseURL}/ffmpeg-core.worker.js`))).blob()),
+            log: true,
+            logger: console.log,
+            progress: console.log
         });
         window.addEventListener("message", async event => {
           console.log("Message received!");
