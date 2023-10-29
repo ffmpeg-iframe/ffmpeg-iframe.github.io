@@ -12,9 +12,8 @@
             coreURL: URL.createObjectURL(await ( await fetch((`${baseURL}/ffmpeg-core.js`))).blob()),
             wasmURL: URL.createObjectURL(await ( await fetch((`${baseURL}/ffmpeg-core.wasm`))).blob()),
             workerURL: URL.createObjectURL(await ( await fetch((`${baseURL}/ffmpeg-core.worker.js`))).blob()),
-            log: true,
-            logger: log => {const pelem = document.createElement("p"); pelem.textContent = log.toString(); document.body.appendChild(pelem);}
         });
+        ffmpeg.on("log", console.log);
         window.addEventListener("message", async event => {
           console.log("Message received!");
           const data = event.data;
