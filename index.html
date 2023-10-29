@@ -12,9 +12,7 @@
             coreURL: URL.createObjectURL(await ( await fetch((`${baseURL}/ffmpeg-core.js`))).blob()),
             wasmURL: URL.createObjectURL(await ( await fetch((`${baseURL}/ffmpeg-core.wasm`))).blob()),
             workerURL: URL.createObjectURL(await ( await fetch((`${baseURL}/ffmpeg-core.worker.js`))).blob()),
-            log: true,
-            logger: e => {console.log(e)},
-            progress: e => {console.log(e)}
+            log: true
         });
         window.addEventListener("message", async event => {
           console.log("Message received!");
